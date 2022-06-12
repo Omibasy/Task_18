@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище MSSQLlocalDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="buyers">
+          <Key>
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Patomic" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="goods_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email_User" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="item_number" Type="int" Nullable="false" />
+          <Property Name="product_name" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "MSSQLlocalDB.dbo.registre" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="registre">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="Password" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__goods_ord__Email__503BEA1C">
+          <End Role="buyers" Type="Self.buyers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="goods_order" Type="Self.goods_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="buyers">
+              <PropertyRef Name="Email" />
+            </Principal>
+            <Dependent Role="goods_order">
+              <PropertyRef Name="Email_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище MSSQLlocalDBModelContainer">
+          <EntitySet Name="buyers" EntityType="Self.buyers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="goods_order" EntityType="Self.goods_order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="registre" EntityType="Self.registre" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [registre].[id] AS [id], 
+    [registre].[UserName] AS [UserName], 
+    [registre].[Password] AS [Password]
+    FROM [dbo].[registre] AS [registre]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__goods_ord__Email__503BEA1C" Association="Self.FK__goods_ord__Email__503BEA1C">
+            <End Role="buyers" EntitySet="buyers" />
+            <End Role="goods_order" EntitySet="goods_order" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MSSQLlocalDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="buyers">
+          <Key>
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patomic" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="goods_order" Relationship="Self.FK__goods_ord__Email__503BEA1C" FromRole="buyers" ToRole="goods_order" />
+        </EntityType>
+        <EntityType Name="goods_order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email_User" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="item_number" Type="Int32" Nullable="false" />
+          <Property Name="product_name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="buyers" Relationship="Self.FK__goods_ord__Email__503BEA1C" FromRole="goods_order" ToRole="buyers" />
+        </EntityType>
+        <EntityType Name="registre">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="Password" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__goods_ord__Email__503BEA1C">
+          <End Role="buyers" Type="Self.buyers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="goods_order" Type="Self.goods_order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="buyers">
+              <PropertyRef Name="Email" />
+            </Principal>
+            <Dependent Role="goods_order">
+              <PropertyRef Name="Email_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MSSQLlocalDBEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="buyers" EntityType="Self.buyers" />
+          <EntitySet Name="goods_order" EntityType="Self.goods_order" />
+          <EntitySet Name="registre" EntityType="Self.registre" />
+          <AssociationSet Name="FK__goods_ord__Email__503BEA1C" Association="Self.FK__goods_ord__Email__503BEA1C">
+            <End Role="buyers" EntitySet="buyers" />
+            <End Role="goods_order" EntitySet="goods_order" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище MSSQLlocalDBModelContainer" CdmEntityContainer="MSSQLlocalDBEntities2">
+          <EntitySetMapping Name="buyers">
+            <EntityTypeMapping TypeName="MSSQLlocalDBModel.buyers">
+              <MappingFragment StoreEntitySet="buyers">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Patomic" ColumnName="Patomic" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="goods_order">
+            <EntityTypeMapping TypeName="MSSQLlocalDBModel.goods_order">
+              <MappingFragment StoreEntitySet="goods_order">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Email_User" ColumnName="Email_User" />
+                <ScalarProperty Name="item_number" ColumnName="item_number" />
+                <ScalarProperty Name="product_name" ColumnName="product_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="registre">
+            <EntityTypeMapping TypeName="MSSQLlocalDBModel.registre">
+              <MappingFragment StoreEntitySet="registre">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
